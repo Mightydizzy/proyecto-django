@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Registro - Aceitubank{% endblock %}
+
+{% block content %}
+<main class="container d-flex justify-content-center py-5">
+  <div class="card shadow-sm border-0 p-4" style="max-width: 480px; width: 100%;">
+    <h2 class="fw-bold mb-4 text-center"><i class="bi bi-person-plus me-2"></i>Registro de usuario</h2>
+    
+    <form method="post" action="{% url 'signup' %}">
+      {% csrf_token %}
+      {{ form.as_p }}
+      
+      <button type="submit" class="btn btn-success btn-lg w-100 mb-2">
+        <i class="bi bi-person-plus me-2"></i>Registrarse
+      </button>
+      <div class="text-center mt-2">
+        <span>¿Ya tienes cuenta? <a href="{% url 'login' %}">Inicia sesión</a></span>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}

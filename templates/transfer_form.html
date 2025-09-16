@@ -1,0 +1,47 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Transferencia - Aceitubank{% endblock %}
+
+{% block content %}
+<main class="container transfer-section mx-auto py-5" style="max-width: 600px;">
+  <div class="card shadow-sm border-0 p-4">
+    <h2 class="fw-bold mb-4 text-center">
+      <i class="bi bi-arrow-left-right me-2"></i>Transferencia en Aceitubank
+    </h2>
+
+    <form method="post">
+      {% csrf_token %}
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-wallet2 me-1"></i>Cuenta origen</label>
+        {{ form.origin_account }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-person me-1"></i>Contacto destino</label>
+        {{ form.contact }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-cash-coin me-1"></i>Monto a transferir</label>
+        {{ form.amount }}
+      </div>
+
+      <div class="mb-3">
+        <label class="form-label"><i class="bi bi-card-text me-1"></i>Nota (opcional)</label>
+        {{ form.note }}
+      </div>
+
+      <div class="d-flex flex-wrap gap-2 justify-content-center">
+        <button type="submit" class="btn btn-success btn-lg">
+          <i class="bi bi-send me-2"></i>Ejecutar transferencia
+        </button>
+        <a href="{% url 'dashboard' %}" class="btn btn-outline-secondary btn-lg">
+          <i class="bi bi-x-circle me-2"></i>Cancelar
+        </a>
+      </div>
+    </form>
+  </div>
+</main>
+{% endblock %}

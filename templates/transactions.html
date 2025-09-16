@@ -1,0 +1,79 @@
+{% extends "base.html" %}
+
+{% block title %}Movimientos - Aceitubank{% endblock %}
+
+{% block content %}
+<main class="container transactions-section py-5">
+  <h2 class="fw-bold mb-4 text-center">
+    <i class="bi bi-clock-history me-2"></i>Movimientos en Aceitubank
+  </h2>
+
+  <div class="table-responsive">
+    <table class="table table-hover align-middle text-center">
+      <thead class="table-success">
+        <tr>
+          <th>Cuenta</th>
+          <th>Tipo</th>
+          <th>Monto</th>
+          <th>Fecha</th>
+          <th>Descripción</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% if movements %}
+          {% for m in movements %}
+            <tr>
+              <td>{{ m.account.name }}</td>
+              <td>
+                {% if m.type == "Egreso" %}
+                  <span class="text-danger"><i class="bi bi-arrow-up-circle"></i> {{ m.type }}</span>
+                {% else %}
+                  <span class="text-success"><i class="bi bi-arrow-down-circle"></i> {{ m.type }}</span>
+                {% endif %}
+              </td>
+              <td><strong>${{ m.amount }}</strong></td>
+              <td>{{ m.date|date:"d M Y" }}</td>
+              <td>{{ m.description }}</td>
+            </tr>
+          {% endfor %}
+        {% else %}
+          <tr>
+            <td colspan="5" class="text-muted">No tienes movimientos registrados.</td>
+          </tr>
+        {% endif %}
+      </tbody>
+    </table>
+  </div>
+
+  <!-- Paginación -->
+  {% if is_paginated %}
+  <nav aria-label="Paginación de movimientos">
+    <ul class="pagination justify-content-center mt-4">
+      {% if page_obj.has_previous %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.previous_page_number }}">Anterior</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+      {% endif %}
+
+      {% for num in paginator.page_range %}
+        {% if page_obj.number == num %}
+          <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+        {% else %}
+          <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+        {% endif %}
+      {% endfor %}
+
+      {% if page_obj.has_next %}
+        <li class="page-item">
+          <a class="page-link" href="?page={{ page_obj.next_page_number }}">Siguiente</a>
+        </li>
+      {% else %}
+        <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+      {% endif %}
+    </ul>
+  </nav>
+  {% endif %}
+</main>
+{% endblock %}

@@ -1,0 +1,13 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+<h2>{% if object %}Editar contacto{% else %}Nuevo contacto{% endif %}</h2>
+
+<form method="post">
+  {% csrf_token %}
+  {% bootstrap_form form %}
+  {% bootstrap_button "Guardar" button_type="submit" button_class="btn-success" %}
+  <a href="{% url 'contacts_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

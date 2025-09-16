@@ -1,0 +1,14 @@
+{% extends 'base.html' %}
+{% load bootstrap5 %}
+
+{% block content %}
+<h2>¿Eliminar contacto?</h2>
+
+<p><strong>{{ object.alias }}</strong> ({{ object.bank_name }} - {{ object.account_number }})</p>
+
+<form method="post">
+  {% csrf_token %}
+  {% bootstrap_button "Eliminar" button_type="submit" button_class="btn-danger" %}
+  <a href="{% url 'contacts_list' %}" class="btn btn-secondary">Cancelar</a>
+</form>
+{% endblock %}

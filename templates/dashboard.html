@@ -1,0 +1,118 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Panel - Aceitubank{% endblock %}
+
+{% block content %}
+<div class="container my-4">
+  <!-- Mensajes -->
+  {% if messages %}
+    <div class="alert alert-success">
+      {% for message in messages %}
+        {{ message }}
+      {% endfor %}
+    </div>
+  {% endif %}
+
+  <!-- Sección de accesos rápidos -->
+  <div class="d-flex justify-content-center gap-3 mb-4">
+    <a href="{% url 'contacts_list' %}" class="btn btn-success btn-lg">
+      <i class="bi bi-people me-1"></i> Ver mis contactos
+    </a>
+    <a href="{% url 'transfer_create' %}" class="btn btn-primary btn-lg">
+      <i class="bi bi-arrow-left-right me-1"></i> Nueva transferencia
+    </a>
+  </div>
+
+  <!-- Sección cuentas -->
+  <h2><i class="bi bi-credit-card-2-front me-2"></i> Mis cuentas</h2>
+  <table class="table table-striped align-middle">
+    <thead class="table-success">
+      <tr>
+        <th>Número de cuenta</th>
+        <th>Tipo</th>
+        <th>Saldo</th>
+        <th>Creada</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if accounts %}
+        {% for account in accounts %}
+        <tr>
+          <td>{{ account.account_number }}</td>
+          <td>{{ account.get_account_type_display }}</td>
+          <td>${{ account.balance|floatformat:0 }}</td>
+          <td>{{ account.created_at|date:"d M Y" }}</td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="4" class="text-center text-muted">Sin cuentas asignadas.</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <!-- Sección movimientos -->
+  <h2><i class="bi bi-clock-history me-2"></i> Movimientos</h2>
+  <table class="table table-striped align-middle">
+    <thead class="table-success">
+      <tr>
+        <th>Fecha</th>
+        <th>Cuenta</th>
+        <th>Tipo</th>
+        <th>Monto</th>
+        <th>Descripción</th>
+      </tr>
+    </thead>
+    <tbody>
+      {% if movements %}
+        {% for m in movements %}
+        <tr>
+          <td>{{ m.date|date:"d M Y" }}</td>
+          <td>{{ m.account.account_number }}</td>
+          <td>{{ m.type }}</td>
+          <td>${{ m.amount|floatformat:0 }}</td>
+          <td>{{ m.description }}</td>
+        </tr>
+        {% endfor %}
+      {% else %}
+        <tr>
+          <td colspan="5" class="text-center text-muted">Sin movimientos.</td>
+        </tr>
+      {% endif %}
+    </tbody>
+  </table>
+
+  <!-- Paginación -->
+  {% if movements.has_other_pages %}
+    <nav aria-label="Paginación de movimientos">
+      <ul class="pagination justify-content-center mt-3">
+        {% if movements.has_previous %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ movements.previous_page_number }}">Anterior</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Anterior</span></li>
+        {% endif %}
+
+        {% for num in movements.paginator.page_range %}
+          {% if movements.number == num %}
+            <li class="page-item active"><span class="page-link">{{ num }}</span></li>
+          {% else %}
+            <li class="page-item"><a class="page-link" href="?page={{ num }}">{{ num }}</a></li>
+          {% endif %}
+        {% endfor %}
+
+        {% if movements.has_next %}
+          <li class="page-item">
+            <a class="page-link" href="?page={{ movements.next_page_number }}">Siguiente</a>
+          </li>
+        {% else %}
+          <li class="page-item disabled"><span class="page-link">Siguiente</span></li>
+        {% endif %}
+      </ul>
+    </nav>
+  {% endif %}
+</div>
+{% endblock %}

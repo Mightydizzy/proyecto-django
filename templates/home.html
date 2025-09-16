@@ -1,0 +1,101 @@
+{% extends "base.html" %}
+{% load static %}
+
+{% block title %}Aceitubank - Inicio{% endblock %}
+
+{% block content %}
+<section class="text-center my-5">
+  <div class="container">
+    <h1 class="display-3 fw-bold mb-3">Aceitubank</h1>
+    <p class="lead mb-4">Tu simulador bancario educativo para transferencias seguras y gestión de cuentas.</p>
+
+    <div class="d-flex justify-content-center gap-3 flex-wrap">
+      {% if user.is_authenticated %}
+        <a href="{% url 'accounts_list' %}" class="btn btn-success btn-lg px-4 shadow-sm">
+          <i class="bi bi-speedometer2 me-2"></i> Ir al Dashboard
+        </a>
+      {% else %}
+        <a href="{% url 'signup' %}" class="btn btn-warning btn-lg px-4 shadow-sm">
+          <i class="bi bi-person-plus me-2"></i> Registrarse
+        </a>
+        <a href="{% url 'login' %}" class="btn btn-outline-success btn-lg px-4">
+          <i class="bi bi-box-arrow-in-right me-2"></i> Iniciar sesión
+        </a>
+        <a href="{% url 'admin:index' %}" class="btn btn-outline-secondary btn-lg px-4">
+          <i class="bi bi-shield-lock me-2"></i> Panel Admin
+        </a>
+      {% endif %}
+    </div>
+  </div>
+</section>
+
+<main class="container main-flex" style="margin-top: 60px;">
+  <!-- ¿Qué es Aceitubank? -->
+  <section class="mb-5 text-center">
+    <h2 class="fw-semibold mb-3">¿Qué es Aceitubank?</h2>
+    <p class="text-muted mx-auto" style="max-width: 700px;">
+      Aceitubank es una plataforma simulada que permite a los usuarios gestionar cuentas bancarias,
+      registrar contactos y realizar transferencias entre cuentas. Diseñada con fines educativos.
+    </p>
+  </section>
+
+  <!-- Funcionalidades principales -->
+  <section class="row text-center mb-5 g-4">
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="mb-2"><i class="bi bi-person-plus" style="font-size: 2rem; color: var(--banco-verde);"></i></div>
+          <h5 class="card-title">Registro de usuarios</h5>
+          <p class="card-text">Crea tu cuenta con RUT, correo y contraseña.</p>
+          <a href="{% url 'signup' %}" class="btn btn-outline-primary">Registrarse</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="mb-2"><i class="bi bi-shield-lock" style="font-size: 2rem; color: var(--banco-verde);"></i></div>
+          <h5 class="card-title">Acceso seguro</h5>
+          <p class="card-text">Inicia sesión para ver tus cuentas, movimientos y transferencias.</p>
+          <a href="{% url 'login' %}" class="btn btn-outline-success">Iniciar sesión</a>
+        </div>
+      </div>
+    </div>
+    <div class="col-md-4">
+      <div class="card border-0 shadow-sm h-100">
+        <div class="card-body">
+          <div class="mb-2"><i class="bi bi-gear" style="font-size: 2rem; color: var(--banco-verde);"></i></div>
+          <h5 class="card-title">Administración</h5>
+          <p class="card-text">Docentes pueden asignar saldos y revisar transferencias.</p>
+          <a href="{% url 'admin:index' %}" class="btn btn-outline-secondary">Ir al panel</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ¿Cómo funciona? -->
+  <section class="text-center mb-5">
+    <h2 class="fw-semibold mb-3">¿Cómo funciona?</h2>
+    <div class="row justify-content-center">
+      <div class="col-lg-8">
+        <ul class="list-group list-group-flush d-inline-block text-start shadow-sm bg-white rounded-3 p-3">
+          <li class="list-group-item"><i class="bi bi-shield-check text-primary me-2"></i>Registro y login con seguridad CSRF</li>
+          <li class="list-group-item"><i class="bi bi-credit-card-2-front text-primary me-2"></i>Visualización de cuentas bancarias y saldos</li>
+          <li class="list-group-item"><i class="bi bi-clock-history text-primary me-2"></i>Historial de movimientos paginado</li>
+          <li class="list-group-item"><i class="bi bi-people text-primary me-2"></i>Mantenedor de contactos</li>
+          <li class="list-group-item"><i class="bi bi-cash-coin text-primary me-2"></i>Transferencias con validación de saldo</li>
+        </ul>
+      </div>
+    </div>
+  </section>
+</main>
+
+<footer class="footer text-center py-4 mt-5">
+  <div class="container">
+    <div class="mb-2">
+      <i class="bi bi-bank2" style="font-size: 2rem;"></i>
+    </div>
+    <p class="mb-0">© 2025 Aceitubank. Proyecto educativo sin fines comerciales.</p>
+  </div>
+</footer>
+{% endblock %}
